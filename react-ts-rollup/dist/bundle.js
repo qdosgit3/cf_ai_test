@@ -30616,6 +30616,13 @@ var clientExports = requireClient();
 
 var reactExports = requireReact();
 
+const Llm = ({ llm_resp, set_llm_resp }) => {
+    function handle_change(e) {
+        console.log('a');
+    }
+    return (jsxRuntimeExports.jsx("textarea", { className: "user-input", value: "", onChange: (e) => { handle_change(); } }));
+};
+
 const App = () => {
     const [input_str, set_input_str] = reactExports.useState("");
     const [resp_str, set_resp_str] = reactExports.useState("");
@@ -30625,7 +30632,13 @@ const App = () => {
     function handle_confirm(e) {
         console.log("test");
     }
-    return (jsxRuntimeExports.jsxs("div", { className: "editor", children: [jsxRuntimeExports.jsxs("div", { className: "input", children: [jsxRuntimeExports.jsx("textarea", { className: "user-input", value: input_str, onChange: (e) => { handle_change(e); } }), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("button", { onClick: handle_confirm, children: "send" })] }), jsxRuntimeExports.jsx("div", { className: "output", children: jsxRuntimeExports.jsx("textarea", { className: "feedback", value: resp_str, onChange: (e) => { handle_change(e); } }) })] }));
+    const [llm_resp, set_llm_resp] = reactExports.useState("");
+    reactExports.useEffect(() => {
+        if (llm_resp) {
+            console.log('hello');
+        }
+    }, [llm_resp]);
+    return (jsxRuntimeExports.jsxs("div", { className: "editor", children: [jsxRuntimeExports.jsxs("div", { className: "input", children: [jsxRuntimeExports.jsx("textarea", { className: "user-input", value: input_str, onChange: (e) => { handle_change(e); } }), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("button", { onClick: handle_confirm, children: "send" })] }), jsxRuntimeExports.jsx("div", { className: "output", children: jsxRuntimeExports.jsx(Llm, { llm_resp: llm_resp, set_llm_resp: set_llm_resp }) })] }));
 };
 
 function styleInject(css, ref) {

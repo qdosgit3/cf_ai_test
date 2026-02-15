@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 
+import Llm from './Llm.tsx';
+
+
 import logo from "./assets/logo.png"; // Import the logo image
 
 const App = () => {
@@ -23,6 +26,23 @@ const App = () => {
     }
 
 
+
+     const [llm_resp, set_llm_resp] = useState("");
+
+
+    useEffect(() => {
+
+    	if (llm_resp) {
+
+    	    console.log('hello');
+
+    	}
+
+    }, [llm_resp]);
+
+
+
+
     return (
 
 <div className="editor">
@@ -39,8 +59,9 @@ const App = () => {
 
 <div className="output">
 
-	    <textarea className="feedback" value={resp_str} onChange=
-	    { (e) => { handle_change(e) } }
+	    <Llm
+	llm_resp={llm_resp}
+	set_llm_resp={set_llm_resp}
 	    />
 
 
