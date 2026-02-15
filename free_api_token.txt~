@@ -1,0 +1,17 @@
+
+
+gWxIKxQKCF4JDg5dpkv80hW9qBhLz1PNjpd03IDF
+
+Sample usage:
+curl "https://api.cloudflare.com/client/v4/user/tokens/verify" -H "Authorization: Bearer gWxIKxQKCF4JDg5dpkv80hW9qBhLz1PNjpd03IDF"
+
+
+bfb0cd0115e98f74e4b00c41c72bac60
+
+
+
+
+curl \
+  https://api.cloudflare.com/client/v4/accounts/bfb0cd0115e98f74e4b00c41c72bac60/ai/run/@cf/meta/llama-3-8b-instruct \
+  -H "Authorization: Bearer gWxIKxQKCF4JDg5dpkv80hW9qBhLz1PNjpd03IDF" \
+  -d '{"messages":[{"role":"system","content":"You are a friendly assistant that helps write stories"},{"role":"user","content":"Write a short story about a llama that goes on a journey to find an orange cloud "}]}'

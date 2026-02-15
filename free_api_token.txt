@@ -1,0 +1,20 @@
+
+Workers AI API Token:
+gWxIKxQKCF4JDg5dpkv80hW9qBhLz1PNjpd03IDF
+
+
+Account ID:
+bfb0cd0115e98f74e4b00c41c72bac60
+
+
+Sample usage, indicates status of token:
+curl "https://api.cloudflare.com/client/v4/user/tokens/verify" -H "Authorization: Bearer gWxIKxQKCF4JDg5dpkv80hW9qBhLz1PNjpd03IDF"
+
+
+##  @cf/meta/llama-3.1-70b-instruct
+
+
+curl \
+  https://api.cloudflare.com/client/v4/accounts/bfb0cd0115e98f74e4b00c41c72bac60/ai/run/@cf/meta/llama-3.1-8b-instruct-fast \
+  -H "Authorization: Bearer gWxIKxQKCF4JDg5dpkv80hW9qBhLz1PNjpd03IDF" \
+  -d '{"messages":[{"role":"system","content":"You are a friendly assistant that helps write stories"},{"role":"user","content":"Write a short story about a llama that goes on a journey to find an orange cloud "}]}'
