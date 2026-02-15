@@ -30616,29 +30616,79 @@ var clientExports = requireClient();
 
 var reactExports = requireReact();
 
-const Llm = ({ llm_resp, set_llm_resp }) => {
-    function handle_change(e) {
-        console.log('a');
+const Llm = ({ input_str, api_call_bool, set_api_call_bool, llm_resp, set_llm_resp }) => {
+    if (api_call_bool === false) {
+        return (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx("em", { children: "Current status:..." }), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("br", {})] }));
     }
-    return (jsxRuntimeExports.jsx("textarea", { className: "user-input", value: "", onChange: (e) => { handle_change(); } }));
+    else {
+        call_llm(input_str);
+        return (jsxRuntimeExports.jsx("div", { className: "loading", children: "Calling Llama 3.1 API" }));
+    }
 };
+async function call_llm(llm_req, llm_resp, set_llm_resp) {
+    const llm_json = await fetch_with_retries(llm_req);
+    store_data(llm_req, llm_json);
+}
+async function fetch_with_retries(llm_req, retry_count) {
+    const ACCOUNT_ID = 'your_account_id_here';
+    const API_TOKEN = 'your_api_token_here';
+    const url = `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/ai/run/@cf/meta/llama-3.1-8b-instruct`;
+    try {
+        return await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Authorization': `Bearer ${API_TOKEN}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                prompt: llm_req
+            })
+        }).then(res => res.json());
+    }
+    catch (error) {
+        console.log("retrying fetch(), retry_count");
+        {
+            return JSON.stringify({
+                status: false
+            });
+        }
+    }
+}
+function store_data(llm_req, llm_json, llm_resp, set_llm_resp) {
+    console.log("store_data()", llm_json, "\n", llm_json.features[0]);
+    try {
+        // const top_hit_coords = llm_json.features[0].geometry.coordinates;
+        // const source_obj = {
+        //     'postcode': postcode,
+        //     'longitude': top_hit_coords[0],
+        //     'latitude': top_hit_coords[1],
+        //     'borough': borough
+        // };
+        console.log("source_obj()");
+        // set_llm_resp(source_obj);
+    }
+    catch {
+    }
+}
 
 const App = () => {
     const [input_str, set_input_str] = reactExports.useState("");
-    const [resp_str, set_resp_str] = reactExports.useState("");
+    const [api_call_bool, set_api_call_bool] = reactExports.useState(false);
+    const [llm_resp, set_llm_resp] = reactExports.useState("");
     function handle_change(e) {
         set_input_str(e.target.value);
     }
     function handle_confirm(e) {
         console.log("test");
+        set_api_call_bool(true);
     }
-    const [llm_resp, set_llm_resp] = reactExports.useState("");
     reactExports.useEffect(() => {
         if (llm_resp) {
             console.log('hello');
         }
     }, [llm_resp]);
-    return (jsxRuntimeExports.jsxs("div", { className: "editor", children: [jsxRuntimeExports.jsxs("div", { className: "input", children: [jsxRuntimeExports.jsx("textarea", { className: "user-input", value: input_str, onChange: (e) => { handle_change(e); } }), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("button", { onClick: handle_confirm, children: "send" })] }), jsxRuntimeExports.jsx("div", { className: "output", children: jsxRuntimeExports.jsx(Llm, { llm_resp: llm_resp, set_llm_resp: set_llm_resp }) })] }));
+    return (jsxRuntimeExports.jsxs("div", { className: "editor", children: [jsxRuntimeExports.jsxs("div", { className: "input", children: [jsxRuntimeExports.jsx("textarea", { className: "user-input", value: input_str, onChange: (e) => { handle_change(e); } }), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("button", { onClick: handle_confirm, children: "send" })] }), jsxRuntimeExports.jsx("div", { className: "output", children: jsxRuntimeExports.jsx(Llm, { input_str: input_str, api_call_bool: api_call_bool, set_api_call_bool: set_api_call_bool, llm_resp: llm_resp, set_llm_resp: set_llm_resp }) })] }));
 };
 
 function styleInject(css, ref) {

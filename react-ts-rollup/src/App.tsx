@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import Llm from './Llm.tsx';
+import Llm from './Llm';
 
 
 import logo from "./assets/logo.png"; // Import the logo image
@@ -9,7 +9,9 @@ const App = () => {
 
     const [input_str, set_input_str] = useState("");
 
-    const [resp_str, set_resp_str] = useState("");
+    const [api_call_bool, set_api_call_bool] = useState(false);
+    
+    const [llm_resp, set_llm_resp] = useState("");
 
 
     function handle_change(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -23,11 +25,9 @@ const App = () => {
 
         console.log("test")
 
+	    	     set_api_call_bool(true);			    
+
     }
-
-
-
-     const [llm_resp, set_llm_resp] = useState("");
 
 
     useEffect(() => {
@@ -60,6 +60,9 @@ const App = () => {
 <div className="output">
 
 	    <Llm
+	input_str={input_str}
+	api_call_bool={api_call_bool}
+	set_api_call_bool={set_api_call_bool}
 	llm_resp={llm_resp}
 	set_llm_resp={set_llm_resp}
 	    />
