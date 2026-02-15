@@ -30614,10 +30614,18 @@ function requireClient () {
 
 var clientExports = requireClient();
 
-var logo = "da39a3ee5e6b4b0d.png";
+var reactExports = requireReact();
 
 const App = () => {
-    return (jsxRuntimeExports.jsxs("div", { children: [jsxRuntimeExports.jsx("h1", { children: "Hello, React + TypeScript + Rollup!" }), jsxRuntimeExports.jsx("img", { src: logo, alt: "Logo" }), " "] }));
+    const [input_str, set_input_str] = reactExports.useState("");
+    const [resp_str, set_resp_str] = reactExports.useState("");
+    function handle_change(e) {
+        set_input_str(e.target.value);
+    }
+    function handle_confirm(e) {
+        console.log("test");
+    }
+    return (jsxRuntimeExports.jsxs("div", { className: "editor", children: [jsxRuntimeExports.jsxs("div", { className: "input", children: [jsxRuntimeExports.jsx("textarea", { className: "user-input", value: input_str, onChange: (e) => { handle_change(e); } }), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("button", { onClick: handle_confirm, children: "send" })] }), jsxRuntimeExports.jsx("div", { className: "output", children: jsxRuntimeExports.jsx("textarea", { className: "feedback", value: resp_str, onChange: (e) => { handle_change(e); } }) })] }));
 };
 
 function styleInject(css, ref) {
@@ -30647,7 +30655,7 @@ function styleInject(css, ref) {
   }
 }
 
-var css_248z = "body {\n    font-family: Arial, sans-serif;\n    padding: 2rem;\n    background-color: #c96969;\n}\n";
+var css_248z = "body {\n    font-family: Arial, sans-serif;\n    padding: 2rem;\n    background-color: #EFEFEF;\n}\n\n\n.editor {\n    display: grid;\n    grid-template-columns: 1fr;\n    grid-gap: 20px;\n\n    height: 100%;\n}\n\n.user-input, .feedback {\n\n    width: 100%;\n\n    height: 50vh;\n    \n}  \n\n/* Laptop: Side-by-Side */\n@media (min-width: 1024px) {\n    .editor {\n\n\tgrid-template-columns: 1fr 1fr;\n\n    }\n\n\n    .user-input, .feedback {\n\n\theight: 70vh;\n    \n    }  \n\n}\n";
 styleInject(css_248z);
 
 const container = document.getElementById('root');
