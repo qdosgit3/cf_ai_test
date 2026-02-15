@@ -32,7 +32,7 @@
 	"typescript": "^5.9.3"
     },
     "scripts": {
-	"build": "rollup --config rollup.config.ts --configPlugin typescript",
+	"build": "rollup --config rollup.config.ts --configPlugin typescript -o public/bundle.js",
 	"start": "rollup --config rollup.config.ts --configPlugin typescript --watch"
     }
 }
