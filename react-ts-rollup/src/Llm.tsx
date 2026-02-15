@@ -27,83 +27,95 @@ const Llm = ({ input_str, api_call_bool, set_api_call_bool, llm_resp, set_llm_re
 
     if (api_call_bool === false) {
 	
-	return (
-	    <>
-		<em>Current status:...</em>
-		<br/>
-		<br/>
-	    </>
-	)
+        return (
+            <>
+            <em>Current status:...</em>
+            <br/>
+            <br/>
+            {llm_resp}
+            </>
+        )
 	
     } else {
 	
-	call_llm(input_str, llm_resp, set_llm_resp);
+	    call_llm(input_str, llm_resp, set_llm_resp, set_api_call_bool);
 
-	return (
-		<div className="loading">Calling Llama 3.1 API</div>
-	)
+	    return (
+		    <div className="loading">Calling Llama 3.1 API</div>
+	    )
 
- }
+    }
 	
 };
 
 
 export default Llm;
 
-export async function call_llm(llm_req: string, llm_resp: string, set_llm_resp: Dispatch<SetStateAction<string>>) {
+export async function call_llm(llm_req: string, llm_resp: string, set_llm_resp: Dispatch<SetStateAction<string>>, set_api_call_bool: Dispatch<SetStateAction<boolean>>) {
 
-    const llm_json = await fetch_with_retries(llm_req, 100);
+    const llm_json = await fetch_with_retries(llm_req, 0);
 
     store_data(llm_req, llm_json, llm_resp, set_llm_resp);
+
+    set_api_call_bool(false);
 
 };
 
 
 async function fetch_with_retries(llm_req: string, retry_count: number) {
 
-     const ACCOUNT_ID = 'your_account_id_here';
-     const API_TOKEN = 'your_api_token_here';
 
-     const url = `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/ai/run/@cf/meta/llama-3.1-8b-instruct`;
+    const ACCOUNT_ID = 'bfb0cd0115e98f74e4b00c41c72bac60';
+    const API_TOKEN = 'gWxIKxQKCF4JDg5dpkv80hW9qBhLz1PNjpd03IDF';
+
+    const url = `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/ai/run/@cf/meta/llama-3.1-8b-instruct-fast`;
       
     try {
 	
     return await fetch(url, {
       method: 'POST',
       headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Authorization': `Bearer ${API_TOKEN}`,
+        'Authorization': `Bearer ${API_TOKEN}`,
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        prompt: llm_req
+        },
+    body: JSON.stringify({
+    "messages": [
+        {
+            "role":"system",
+            "content":"You are a friendly assistant that helps write stories"
+        },
+        {
+            "role":"user",
+            "content":"Write a short story about a llama that goes on a journey to find an orange cloud "
+        }
+        ]
       })
-      }).then(res => res.json());
+    }).then(res => res.json());
 
     } catch (error) {
 
     console.log("retrying fetch(), retry_count");
 
-if (retry_count < 5) {
+    if (retry_count < 3) {
 
-return fetch_with_retries(llm_req, retry_count + 1);
+    return fetch_with_retries(llm_req, retry_count + 1);
 
-} else {
+    } else {
 
-return JSON.stringify({
-status: false
-})
+        return JSON.stringify({
+        status: false
+         })
 
-}
+    }
 
-}
+    }
     
 };
 
 
 export function store_data(llm_req: string, llm_json: Record<string, string>, llm_resp: string, set_llm_resp: Dispatch<SetStateAction<string>>) {
     
-    console.log("store_data()", llm_json, "\n", llm_json.features[0])
+    console.log("store_data()", JSON.stringify(llm_json))
 
     try {
 	
@@ -116,9 +128,9 @@ export function store_data(llm_req: string, llm_json: Record<string, string>, ll
 	//     'borough': borough
 	// };
 
-	console.log("source_obj()");
+	console.log(JSON.stringify(llm_json));
 
-	// set_llm_resp(source_obj);
+	set_llm_resp(JSON.stringify(llm_json));
 
     } catch {
 
