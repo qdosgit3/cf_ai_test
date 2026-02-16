@@ -43,7 +43,7 @@ const Llm = ({ name_str, input_str, api_call_bool, set_api_call_bool, llm_resp, 
 	    call_llm(name_str, input_str, llm_resp, set_llm_resp, set_api_call_bool);
 
 	    return (
-		    <div className="loading">Calling Llama 3.1 API</div>
+		    <div className="loading">Calling Llama 3.1 API via Cloudflare</div>
 	    )
 
     }
@@ -60,16 +60,14 @@ export async function call_llm(name: string, llm_req: string, llm_resp: string, 
 
     store_data(llm_req, llm_json, llm_resp, set_llm_resp);
 
+    console.log(llm_resp)
+    
     set_api_call_bool(false);
 
 };
 
 
 async function fetch_with_retries(name: string, llm_req: string, retry_count: number) {
-
-
-    // const ACCOUNT_ID = 'bfb0cd0115e98f74e4b00c41c72bac60';
-    // const API_TOKEN = 'gWxIKxQKCF4JDg5dpkv80hW9qBhLz1PNjpd03IDF';
 
     const url = "https://hello-ai.qdosgit3.workers.dev/"
       
@@ -91,19 +89,19 @@ async function fetch_with_retries(name: string, llm_req: string, retry_count: nu
 
     } catch (error) {
 
-    console.log("retrying fetch(), retry_count");
+        console.log("retrying fetch(), retry_count");
 
-    if (retry_count < 3) {
+        if (retry_count < 3) {
 
-    return fetch_with_retries(name, llm_req, retry_count + 1);
+	    return fetch_with_retries(name, llm_req, retry_count + 1);
 
-    } else {
+    	} else {
 
-        return JSON.stringify({
-        status: false
-         })
+	    return JSON.stringify({
+	    status: false
+	    })
 
-    }
+	}
 
     }
     
