@@ -73,7 +73,9 @@ Please provide your message:
 	    { (e) => { handle_change(e) } }
 	    />
 	    <br/>
-	    <button onClick={handle_confirm}>send</button >
+
+
+	    {api_call_bool? null : <button onClick={handle_confirm}>send</button >}
 
 </div>
 
