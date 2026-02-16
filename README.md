@@ -1,8 +1,22 @@
 
 The frontend for a modern implementation of the historic ELIZA AI psycologist.
 
-Available here:
-https://cf-ai-eliza2.qdosgit3.workers.dev
+Made up of the following features:
+- Typescript compilation checking
+- Rollup.js bundling
+- State maintained within client via React's setState
+- Response CSS via CSS grid
+
+
+Quickstart:
+```
+npm install
+npm run start
+```
+
+__________
+
+Front-end accessible here: https://cf-ai-eliza2.qdosgit3.workers.dev
 
 Based on React, Rollup, Typescript.
 

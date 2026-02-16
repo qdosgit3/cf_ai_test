@@ -30622,17 +30622,16 @@ const Llm = ({ name_str, input_str, api_call_bool, set_api_call_bool, llm_resp, 
     }
     else {
         call_llm(name_str, input_str, llm_resp, set_llm_resp, set_api_call_bool);
-        return (jsxRuntimeExports.jsx("div", { className: "loading", children: "Calling Llama 3.1 API" }));
+        return (jsxRuntimeExports.jsx("div", { className: "loading", children: "Calling Llama 3.1 API via Cloudflare" }));
     }
 };
 async function call_llm(name, llm_req, llm_resp, set_llm_resp, set_api_call_bool) {
     const llm_json = await fetch_with_retries(name, llm_req, 0);
     store_data(llm_req, llm_json, llm_resp, set_llm_resp);
+    console.log(llm_resp);
     set_api_call_bool(false);
 }
 async function fetch_with_retries(name, llm_req, retry_count) {
-    // const ACCOUNT_ID = 'bfb0cd0115e98f74e4b00c41c72bac60';
-    // const API_TOKEN = 'gWxIKxQKCF4JDg5dpkv80hW9qBhLz1PNjpd03IDF';
     const url = "https://hello-ai.qdosgit3.workers.dev/";
     try {
         const req = {
@@ -30697,7 +30696,7 @@ const App = () => {
             console.log('hello');
         }
     }, [llm_resp]);
-    return (jsxRuntimeExports.jsxs("div", { children: [jsxRuntimeExports.jsx("h1", { children: "Eliza v2" }), jsxRuntimeExports.jsxs("div", { className: "editor", children: [jsxRuntimeExports.jsxs("div", { className: "input", children: ["Please provide your name:", jsxRuntimeExports.jsx("textarea", { className: "name", value: name_str, onChange: (e) => { handle_name_change(e); } }), "Please provide your message:", jsxRuntimeExports.jsx("textarea", { className: "user-input", value: input_str, onChange: (e) => { handle_change(e); } }), jsxRuntimeExports.jsx("br", {}), jsxRuntimeExports.jsx("button", { onClick: handle_confirm, children: "send" })] }), jsxRuntimeExports.jsx("div", { className: "output", children: jsxRuntimeExports.jsx(Llm, { name_str: name_str, input_str: input_str, api_call_bool: api_call_bool, set_api_call_bool: set_api_call_bool, llm_resp: llm_resp, set_llm_resp: set_llm_resp }) })] })] }));
+    return (jsxRuntimeExports.jsxs("div", { children: [jsxRuntimeExports.jsx("h1", { children: "Eliza v2" }), jsxRuntimeExports.jsxs("div", { className: "editor", children: [jsxRuntimeExports.jsxs("div", { className: "input", children: ["Please provide your name:", jsxRuntimeExports.jsx("textarea", { className: "name", value: name_str, onChange: (e) => { handle_name_change(e); } }), "Please provide your message:", jsxRuntimeExports.jsx("textarea", { className: "user-input", value: input_str, onChange: (e) => { handle_change(e); } }), jsxRuntimeExports.jsx("br", {}), api_call_bool ? null : jsxRuntimeExports.jsx("button", { onClick: handle_confirm, children: "send" })] }), jsxRuntimeExports.jsx("div", { className: "output", children: jsxRuntimeExports.jsx(Llm, { name_str: name_str, input_str: input_str, api_call_bool: api_call_bool, set_api_call_bool: set_api_call_bool, llm_resp: llm_resp, set_llm_resp: set_llm_resp }) })] })] }));
 };
 
 function styleInject(css, ref) {
@@ -30727,7 +30726,7 @@ function styleInject(css, ref) {
   }
 }
 
-var css_248z = "body {\n    font-family: Arial, sans-serif;\n    padding: 2rem;\n    background-color: #EFEFEF;\n}\n\n\n.editor {\n    display: grid;\n    grid-template-columns: 1fr;\n    grid-gap: 20px;\n\n    height: 100%;\n}\n\n.name {\n\n    width: 100%;\n\n    height: 20px;\n    \n}  \n\n.user-input, .feedback {\n\n    width: 100%;\n\n    height: 30vh;\n    \n}  \n\n/* Laptop: Side-by-Side */\n@media (min-width: 1024px) {\n    .editor {\n\n\tgrid-template-columns: 1fr 1fr;\n\n    }\n\n\n    .user-input, .feedback {\n\n\theight: 70vh;\n    \n    }  \n\n}\n";
+var css_248z = "body {\n    font-family: Arial, sans-serif;\n    padding: 2rem;\n    background-color: #EFEFEF;\n}\n\n\n.editor {\n    display: grid;\n    grid-template-columns: 1fr;\n    grid-gap: 20px;\n\n    height: 100%;\n}\n\n.name {\n\n    width: 100%;\n\n    height: 20px;\n    \n}  \n\n.user-input {\n\n    width: 100%;\n\n    height: 15vh;\n    \n}  \n\n.feedback {\n\n    width: 100%;\n\n    height: 50vh;\n    \n}  \n\n/* Laptop: Side-by-Side */\n@media (min-width: 1024px) {\n    .editor {\n\n\tgrid-template-columns: 1fr 1fr;\n\n    }\n\n\n    .user-input, .feedback {\n\n\theight: 70vh;\n    \n    }  \n\n}\n";
 styleInject(css_248z);
 
 const container = document.getElementById('root');

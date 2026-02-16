@@ -31,7 +31,7 @@ const Llm = ({ name_str, input_str, api_call_bool, set_api_call_bool, llm_resp, 
 	
         return (
             <>
-            <em>Psycologist's response:</em>
+            <em>Psychologist's response:</em>
             <br/>
             <br/>
             {llm_resp}
