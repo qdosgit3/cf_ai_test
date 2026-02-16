@@ -4,6 +4,8 @@ import React, { useState, Dispatch, SetStateAction } from 'react';
 
 interface LlmProps {
 
+	  name_str: string;
+
 	  input_str: string;
 
   api_call_bool: boolean;                            // The state value
@@ -17,7 +19,7 @@ interface LlmProps {
 }
 
 
-const Llm = ({ input_str, api_call_bool, set_api_call_bool, llm_resp, set_llm_resp }: LlmProps) => {
+const Llm = ({ name_str, input_str, api_call_bool, set_api_call_bool, llm_resp, set_llm_resp }: LlmProps) => {
 
     function handle_change(e: React.ChangeEvent<HTMLTextAreaElement>) {
 
@@ -29,7 +31,7 @@ const Llm = ({ input_str, api_call_bool, set_api_call_bool, llm_resp, set_llm_re
 	
         return (
             <>
-            <em>Current status:...</em>
+            <em>Psycologist's response:</em>
             <br/>
             <br/>
             {llm_resp}
@@ -38,7 +40,7 @@ const Llm = ({ input_str, api_call_bool, set_api_call_bool, llm_resp, set_llm_re
 	
     } else {
 	
-	    call_llm(input_str, llm_resp, set_llm_resp, set_api_call_bool);
+	    call_llm(name_str, input_str, llm_resp, set_llm_resp, set_api_call_bool);
 
 	    return (
 		    <div className="loading">Calling Llama 3.1 API</div>
@@ -51,9 +53,10 @@ const Llm = ({ input_str, api_call_bool, set_api_call_bool, llm_resp, set_llm_re
 
 export default Llm;
 
-export async function call_llm(llm_req: string, llm_resp: string, set_llm_resp: Dispatch<SetStateAction<string>>, set_api_call_bool: Dispatch<SetStateAction<boolean>>) {
+export async function call_llm(name: string, llm_req: string, llm_resp: string, set_llm_resp: Dispatch<SetStateAction<string>>, set_api_call_bool: Dispatch<SetStateAction<boolean>>) {
 
-    const llm_json = await fetch_with_retries(llm_req, 0);
+
+    const llm_json = await fetch_with_retries(name, llm_req, 0);
 
     store_data(llm_req, llm_json, llm_resp, set_llm_resp);
 
@@ -62,7 +65,7 @@ export async function call_llm(llm_req: string, llm_resp: string, set_llm_resp: 
 };
 
 
-async function fetch_with_retries(llm_req: string, retry_count: number) {
+async function fetch_with_retries(name: string, llm_req: string, retry_count: number) {
 
 
     // const ACCOUNT_ID = 'bfb0cd0115e98f74e4b00c41c72bac60';
@@ -78,6 +81,7 @@ async function fetch_with_retries(llm_req: string, retry_count: number) {
         'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+	username: name,
         prompt: llm_req })
         }
 
@@ -91,7 +95,7 @@ async function fetch_with_retries(llm_req: string, retry_count: number) {
 
     if (retry_count < 3) {
 
-    return fetch_with_retries(llm_req, retry_count + 1);
+    return fetch_with_retries(name, llm_req, retry_count + 1);
 
     } else {
 
@@ -123,7 +127,7 @@ export function store_data(llm_req: string, llm_json: Record<string, string>, ll
 
 	console.log(JSON.stringify(llm_json));
 
-	set_llm_resp(JSON.stringify(llm_json));
+	set_llm_resp(llm_json["response"]);
 
     } catch {
 
