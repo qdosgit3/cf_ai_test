@@ -14,6 +14,8 @@ npm install
 npm run start
 ```
 
+Deployed automatically via Cloudflare Pages, which checks for new commits.
+
 __________
 
 Front-end accessible here: https://cf-ai-eliza2.qdosgit3.workers.dev
