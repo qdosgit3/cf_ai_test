@@ -21,11 +21,19 @@ body {
     
 }  
 
-.user-input, .feedback {
+.user-input {
 
     width: 100%;
 
-    height: 30vh;
+    height: 15vh;
+    
+}  
+
+.feedback {
+
+    width: 100%;
+
+    height: 50vh;
     
 }  
 
