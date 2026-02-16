@@ -30727,7 +30727,7 @@ function styleInject(css, ref) {
   }
 }
 
-var css_248z = "body {\n    font-family: Arial, sans-serif;\n    padding: 2rem;\n    background-color: #EFEFEF;\n}\n\n\n.editor {\n    display: grid;\n    grid-template-columns: 1fr;\n    grid-gap: 20px;\n\n    height: 100%;\n}\n\n.name {\n\n    width: 100%;\n\n    height: 20px;\n    \n}  \n\n.user-input, .feedback {\n\n    width: 100%;\n\n    height: 50vh;\n    \n}  \n\n/* Laptop: Side-by-Side */\n@media (min-width: 1024px) {\n    .editor {\n\n\tgrid-template-columns: 1fr 1fr;\n\n    }\n\n\n    .user-input, .feedback {\n\n\theight: 70vh;\n    \n    }  \n\n}\n";
+var css_248z = "body {\n    font-family: Arial, sans-serif;\n    padding: 2rem;\n    background-color: #EFEFEF;\n}\n\n\n.editor {\n    display: grid;\n    grid-template-columns: 1fr;\n    grid-gap: 20px;\n\n    height: 100%;\n}\n\n.name {\n\n    width: 100%;\n\n    height: 20px;\n    \n}  \n\n.user-input, .feedback {\n\n    width: 100%;\n\n    height: 30vh;\n    \n}  \n\n/* Laptop: Side-by-Side */\n@media (min-width: 1024px) {\n    .editor {\n\n\tgrid-template-columns: 1fr 1fr;\n\n    }\n\n\n    .user-input, .feedback {\n\n\theight: 70vh;\n    \n    }  \n\n}\n";
 styleInject(css_248z);
 
 const container = document.getElementById('root');
